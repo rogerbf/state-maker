@@ -1,7 +1,7 @@
 {
   "name": "state-maker",
   "version": "1.0.0",
-  "description": "close around a state object",
+  "description": "state utilities",
   "main": "build/state-maker.js",
   "unpkg": "build/state-maker.umd.js",
   "module": "build/state-maker.es.js",
