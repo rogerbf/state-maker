@@ -44,7 +44,13 @@
     "rxjs": "6.3.3"
   },
   "directories": {
+    "example": "examples",
     "test": "tests"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogerbf/state-maker.git"
+  },
+  "homepage": "https://github.com/rogerbf/state-maker#readme"
 }
