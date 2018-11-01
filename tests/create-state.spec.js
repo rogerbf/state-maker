@@ -47,4 +47,20 @@ describe(`createState`, () => {
     expect(setState({ testing: [ 1, 2, 3 ] })).toEqual(true)
     expect(getState()).toEqual({ count: 2, state: { testing: [ 1, 2, 3 ] } })
   })
+
+  it(`returns a clone of the state`, () => {
+    const [ getState, setState ] = createState()
+
+    setState({ testing: [ 1, 2, 3 ] })
+
+    const stateA = getState()
+
+    setState({ testing: [ 1, 2, 3, 4 ] })
+
+    const stateB = getState()
+
+    expect(stateA).not.toEqual(stateB)
+    expect(stateA).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(stateB).toEqual({ testing: [ 1, 2, 3, 4 ] })
+  })
 })
