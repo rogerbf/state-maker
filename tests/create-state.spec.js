@@ -7,19 +7,19 @@ describe(`createState`, () => {
   })
 
   it(`returns an array with a setter and getter`, () => {
-    expect(createState()).toEqual([ expect.any(Function), expect.any(Function) ])
+    const [ state, setState ] = createState()
 
-    const [ getState, setState ] = createState()
-
-    expect(getState()).toEqual(undefined)
+    expect(state).toEqual(expect.any(Function))
+    expect(setState).toEqual(expect.any(Function))
+    expect(state.current).toEqual(undefined)
     expect(setState({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
-    expect(getState()).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
 
   it(`sets initial state on initialization`, () => {
-    const [ getState, setState ] = createState({ testing: [ 1, 2, 3 ] })
+    const [ state, setState ] = createState({ testing: [ 1, 2, 3 ] })
 
-    expect(getState()).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
 
   it(`applies enhancers before returning the api`, () => {
@@ -40,12 +40,12 @@ describe(`createState`, () => {
       ]
     }
 
-    const [ getState, setState ] = createState(enhancer)
+    const [ state, setState ] = createState(enhancer)
 
-    expect(getState()).toEqual({ count: 0, state: undefined })
-    expect(getState()).toEqual({ count: 1, state: undefined })
+    expect(state.current).toEqual({ count: 0, state: undefined })
+    expect(state.current).toEqual({ count: 1, state: undefined })
     expect(setState({ testing: [ 1, 2, 3 ] })).toEqual(true)
-    expect(getState()).toEqual({ count: 2, state: { testing: [ 1, 2, 3 ] } })
+    expect(state.current).toEqual({ count: 2, state: { testing: [ 1, 2, 3 ] } })
   })
 
   it(`returns a clone of the state`, () => {
