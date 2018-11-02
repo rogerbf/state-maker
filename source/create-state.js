@@ -6,13 +6,23 @@ const createState = (initialState, ...enhancers) => {
 
   let state = initialState
 
-  return enhancers.reduce((api, enhancer) => enhancer(api), [
-    () => state,
-    update => {
-      state = update
-      return state
-    },
-  ])
+  return enhancers
+    .concat(([ get, set ]) => {
+      const stateContainer = {}
+
+      Object.defineProperty(get, `current`, {
+        get,
+      })
+
+      return [ get, set ]
+    })
+    .reduce((api, enhancer) => enhancer(api), [
+      () => state,
+      update => {
+        state = update
+        return state
+      },
+    ])
 }
 
 export default createState
