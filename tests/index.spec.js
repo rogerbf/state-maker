@@ -7,11 +7,11 @@ const { createState, makeObservable } = require(process.env.NODE_ENV ===
 
 describe(`integration tests`, () => {
   it(`creates a state container`, () => {
-    const [ getState, setState ] = createState()
+    const state = createState()
 
-    expect(getState()).toEqual(undefined)
-    expect(setState({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
-    expect(getState()).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state.current).toEqual(undefined)
+    expect(state({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
 
   it(`creates a state container without initial state, with enhancer`, () => {
@@ -27,9 +27,9 @@ describe(`integration tests`, () => {
       ]
     }
 
-    const [ getState ] = createState(enhancer)
+    const state = createState(enhancer)
 
-    expect(getState()).toEqual({
+    expect(state.current).toEqual({
       retrieved: `2018-10-29T11:39:32.267Z`,
       state: undefined,
     })
@@ -49,16 +49,16 @@ describe(`integration tests`, () => {
       ]
     }
 
-    const [ getState, setState ] = createState(
+    const state = createState(
       { count: undefined, state: undefined },
       counter,
       makeObservable
     )
 
     const listener = jest.fn()
-    const subscription = from(setState).subscribe(listener)
+    const subscription = from(state).subscribe(listener)
 
-    expect(setState({ testing: [ 1, 2, 3 ] })).toEqual({
+    expect(state({ testing: [ 1, 2, 3 ] })).toEqual({
       count: 0,
       state: { testing: [ 1, 2, 3 ] },
     })
@@ -66,9 +66,9 @@ describe(`integration tests`, () => {
       count: 0,
       state: { testing: [ 1, 2, 3 ] },
     })
-    expect(getState()).toEqual({ count: 0, state: { testing: [ 1, 2, 3 ] } })
+    expect(state.current).toEqual({ count: 0, state: { testing: [ 1, 2, 3 ] } })
 
-    expect(setState({ testing: [ 1, 2, 3, 4 ] })).toEqual({
+    expect(state({ testing: [ 1, 2, 3, 4 ] })).toEqual({
       count: 1,
       state: { testing: [ 1, 2, 3, 4 ] },
     })
@@ -76,16 +76,19 @@ describe(`integration tests`, () => {
       count: 1,
       state: { testing: [ 1, 2, 3, 4 ] },
     })
-    expect(getState()).toEqual({ count: 1, state: { testing: [ 1, 2, 3, 4 ] } })
+    expect(state.current).toEqual({
+      count: 1,
+      state: { testing: [ 1, 2, 3, 4 ] },
+    })
 
     subscription.unsubscribe()
 
-    expect(setState({ testing: [ 1, 2, 3, 4, 5 ] })).toEqual({
+    expect(state({ testing: [ 1, 2, 3, 4, 5 ] })).toEqual({
       count: 2,
       state: { testing: [ 1, 2, 3, 4, 5 ] },
     })
     expect(listener).toHaveBeenCalledTimes(2)
-    expect(getState()).toEqual({
+    expect(state.current).toEqual({
       count: 2,
       state: { testing: [ 1, 2, 3, 4, 5 ] },
     })
