@@ -10,11 +10,11 @@ const createState = (initialState, ...enhancers) => {
     .concat(([ get, set ]) => {
       const stateContainer = {}
 
-      Object.defineProperty(get, `current`, {
+      Object.defineProperty(set, `current`, {
         get,
       })
 
-      return [ get, set ]
+      return set
     })
     .reduce((api, enhancer) => enhancer(api), [
       () => state,
