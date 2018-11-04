@@ -62,4 +62,13 @@ describe(`createState`, () => {
     expect(stateA).toEqual({ testing: [ 1, 2, 3 ] })
     expect(stateB).toEqual({ testing: [ 1, 2, 3, 4 ] })
   })
+
+  it(`throws when trying to write to .current`, () => {
+    const state = createState({ a: 1 })
+
+    expect(state.current).toEqual({ a: 1 })
+    expect(() => {
+      state.current = { a: 2 }
+    }).toThrow()
+  })
 })
