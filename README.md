@@ -5,11 +5,20 @@
 ```javascript
 import { createState } from "state-maker"
 
-const state = createState()
+const createRobotsContainer = createState()
+const robots = createRobotsContainer({ androids: [], industrial: [] })
 
-console.log(state.current) // undefined
+console.log(robots.current)
+// { androids: [], industrial: [] }
 
-console.log(state({ androids: [ `Data` ] })) // { androids: [ `Data` ] }
+robots({
+  ...robots.current,
+  androids: [ ...robots.current.androids, `Data` ],
+})({
+  ...robots.current,
+  industrial: [ ...robots.current.industrial, `Iceman` ],
+})
 
-console.log(state.current) // { androids: [ `Data` ] }
+console.log(robots.current)
+// { androids: [ 'Data' ], industrial: [ 'Iceman' ] }
 ```
