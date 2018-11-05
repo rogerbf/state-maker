@@ -7,7 +7,7 @@ const { createState, makeObservable } = require(process.env.NODE_ENV ===
 
 describe(`integration tests`, () => {
   it(`creates a state container`, () => {
-    const state = createState()
+    const state = createState()()
 
     expect(state.current).toEqual(undefined)
     expect(state({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
@@ -27,7 +27,7 @@ describe(`integration tests`, () => {
       ]
     }
 
-    const state = createState(enhancer)
+    const state = createState(enhancer)()
 
     expect(state.current).toEqual({
       retrieved: `2018-10-29T11:39:32.267Z`,
@@ -49,11 +49,10 @@ describe(`integration tests`, () => {
       ]
     }
 
-    const state = createState(
-      { count: undefined, state: undefined },
-      counter,
-      makeObservable
-    )
+    const state = createState(counter, makeObservable)({
+      count: undefined,
+      state: undefined,
+    })
 
     const listener = jest.fn()
     const subscription = from(state).subscribe(listener)

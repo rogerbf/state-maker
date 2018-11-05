@@ -1,15 +1,8 @@
-const createState = (initialState, ...enhancers) => {
-  if (typeof initialState === `function`) {
-    enhancers.unshift(initialState)
-    initialState = undefined
-  }
-
+const createState = (...enhancers) => initialState => {
   let state = initialState
 
   return enhancers
     .concat(([ get, set ]) => {
-      const stateContainer = {}
-
       Object.defineProperty(set, `current`, {
         get,
       })
