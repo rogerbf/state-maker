@@ -1,7 +1,7 @@
 const { createState, makeObservable } = require(`../`)
 const { from } = require(`rxjs`)
 
-const state = createState(makeObservable)
+const state = createState(makeObservable)()
 
 const subscription = from(state).subscribe(console.log)
 
