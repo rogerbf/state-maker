@@ -10,7 +10,9 @@ describe(`integration tests`, () => {
     const state = createState()()
 
     expect(state.current).toEqual(undefined)
-    expect(state({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state({ testing: [ 1, 2, 3 ] }).current).toEqual({
+      testing: [ 1, 2, 3 ],
+    })
     expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
 
@@ -91,5 +93,24 @@ describe(`integration tests`, () => {
       count: 2,
       state: { testing: [ 1, 2, 3, 4, 5 ] },
     })
+  })
+
+  it(`sets the expected state with chained calls`, () => {
+    const mock = jest.fn()
+
+    const enhancer = ([ get, set ]) => {
+      return [
+        get,
+        update => {
+          mock()
+          return set(update)
+        },
+      ]
+    }
+
+    const state = createState(enhancer)()
+
+    state()()()
+    expect(mock).toHaveBeenCalledTimes(3)
   })
 })

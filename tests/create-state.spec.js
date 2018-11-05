@@ -15,7 +15,9 @@ describe(`createState`, () => {
 
     expect(state).toEqual(expect.any(Function))
     expect(state.current).toEqual(undefined)
-    expect(state({ testing: [ 1, 2, 3 ] })).toEqual({ testing: [ 1, 2, 3 ] })
+    expect(state({ testing: [ 1, 2, 3 ] }).current).toEqual({
+      testing: [ 1, 2, 3 ],
+    })
     expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
 
