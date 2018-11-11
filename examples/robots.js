@@ -1,7 +1,6 @@
 const { createState } = require(`../`)
 
-const createRobotsContainer = createState()
-const robots = createRobotsContainer({ androids: [], industrial: [] })
+const robots = createState({ androids: [], industrial: [] })
 
 console.log(robots.current)
 
