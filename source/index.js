@@ -1,4 +1,5 @@
 import createState from "./create-state"
-import makeObservable from "./enhancers/make-observable"
+import combineEnhancers from "./combine-enhancers"
+import observableState from "./enhancers/observable-state"
 
-export { createState, makeObservable }
+export { createState, combineEnhancers, observableState }
