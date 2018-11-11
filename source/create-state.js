@@ -1,13 +1,13 @@
-const createState = (...enhancers) => initialState => {
-  let state = initialState
-
-  let [ get, set ] = enhancers.reduce((api, enhancer) => enhancer(api), [
+const createState = (state, enhancer) => {
+  const api = [
     () => state,
     updatedState => {
       state = updatedState
       return set
     },
-  ])
+  ]
+
+  const [ get, set ] = enhancer ? enhancer(api) : api
 
   Object.defineProperty(set, `current`, {
     get,

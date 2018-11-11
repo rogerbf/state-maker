@@ -11,7 +11,7 @@ describe(`createState`, () => {
   })
 
   it(`sets and gets state`, () => {
-    const state = createState()()
+    const state = createState()
 
     expect(state).toEqual(expect.any(Function))
     expect(state.current).toEqual(undefined)
@@ -22,7 +22,7 @@ describe(`createState`, () => {
   })
 
   it(`sets initial state`, () => {
-    const state = createState()({ testing: [ 1, 2, 3 ] })
+    const state = createState({ testing: [ 1, 2, 3 ] })
 
     expect(state.current).toEqual({ testing: [ 1, 2, 3 ] })
   })
@@ -45,7 +45,7 @@ describe(`createState`, () => {
       ]
     }
 
-    const state = createState(enhancer)()
+    const state = createState(undefined, enhancer)
 
     expect(state.current).toEqual({ count: 0, state: undefined })
     expect(state.current).toEqual({ count: 1, state: undefined })
@@ -54,7 +54,7 @@ describe(`createState`, () => {
   })
 
   it(`returns a clone of the state`, () => {
-    const state = createState()()
+    const state = createState()
 
     state({ testing: [ 1, 2, 3 ] })
 
@@ -70,7 +70,7 @@ describe(`createState`, () => {
   })
 
   it(`throws when trying to write to .current`, () => {
-    const state = createState()({ a: 1 })
+    const state = createState({ a: 1 })
 
     expect(state.current).toEqual({ a: 1 })
     expect(() => {
