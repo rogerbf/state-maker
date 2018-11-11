@@ -1,15 +1,15 @@
 const expect = require(`expect`)
 const { from } = require(`rxjs`)
 const {
-  default: makeObservable,
-} = require(`../../source/enhancers/make-observable`)
+  default: observableState,
+} = require(`../../source/enhancers/observable-state`)
 
-describe(`makeObservable`, () => {
+describe(`observableState`, () => {
   it(`returns a subscribable setter`, () => {
     const get = jest.fn(() => ({ testing: [ 1, 2, 3 ] }))
     const set = jest.fn()
 
-    const [ getState, setState ] = makeObservable([ get, set ])
+    const [ getState, setState ] = observableState([ get, set ])
 
     expect(getState).toEqual(get)
     expect(setState).toEqual(expect.any(Function))

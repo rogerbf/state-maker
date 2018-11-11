@@ -1,7 +1,7 @@
 const $$observable =
   (typeof Symbol === `function` && Symbol.observable) || `@@observable`
 
-const makeObservable = ([ get, set ]) => {
+const observableState = ([ get, set ]) => {
   let observers = []
 
   const observableSet = updatedState => {
@@ -33,4 +33,4 @@ const makeObservable = ([ get, set ]) => {
   return [ get, observableSet ]
 }
 
-export default makeObservable
+export default observableState
